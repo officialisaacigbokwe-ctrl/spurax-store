@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CartItem, getCart } from "@/lib/cart";
 import { formatCurrency } from "@/lib/currency";
@@ -11,7 +11,7 @@ import {
   calculateDeliveryFee,
 } from "@/lib/delivery";
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -462,5 +462,13 @@ export default function CheckoutPage() {
         </aside>
       </div>
     </main>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={null}>
+      <CheckoutContent />
+    </Suspense>
   );
 }
